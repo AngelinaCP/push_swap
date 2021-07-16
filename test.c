@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 
 typedef struct Node
@@ -51,14 +52,14 @@ void	insert_after(Node *node, int value)
 
 void	insert_sorted(Node **root, int value)
 {
+	Node	*curr;
+
+	curr = *root;
 	if (*root == NULL || (*root)->x >= value)
 	{
 		insert_beggining(root, value);
 		return ;
 	}
-	Node	*curr;
-	
-	curr = *root;
 	while (curr->next != NULL)
 	{
 		if (curr->next->x >= value)
@@ -110,6 +111,15 @@ void reverse(Node **root)
 {
 	Node *prev = NULL;
 	Node *curr = *root;
+
+	while (curr != NULL)
+	{
+		Node *next = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = next;
+	}
+	*root = prev;
 }
 
 int main(void)
@@ -120,14 +130,19 @@ int main(void)
 	// 	exit (1);
 	// root->x = 5;
 	// root->next = NULL;
-	//insert_beggining(&root, 2);
-	// insert_after(root, 12);
-	// insert_end(&root, 10);
-	insert_sorted(&root, 5);
-	insert_sorted(&root, 4);
-	insert_sorted(&root, 1);
-	insert_sorted(&root, 7);
-	remove_element(&root, 1);
+	insert_beggining(&root, 2);
+	 insert_after(root, 12);
+	 insert_end(&root, 10);
+	 insert_end(&root, 5);
+	 insert_end(&root, 8);
+	 insert_end(&root, 7);
+	 insert_end(&root, 9);
+	 reverse(&root);
+//	insert_sorted(&root, 5);
+//	insert_sorted(&root, 4);
+//	insert_sorted(&root, 1);
+//	insert_sorted(&root, 7);
+//	remove_element(&root, 1);
 	Node	*curr = root;
 
 	while (curr != NULL)
