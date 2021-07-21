@@ -3,31 +3,128 @@
 
 typedef struct Stack
 {
-	int x;
+	int num;
 	struct Stack *next;
-} Stack;
+	struct Stack *A;
+	//int *next;
+} Stack ;
+
+typedef struct Unit
+{
+	int num;
+	struct Unit *next;
+	int index;
+} Unit ;
+
+Stack *init_Stack(void)
+{
+	Stack *new;
+
+	new = (Stack *)malloc(sizeof(Stack *));
+	if (!new)
+		exit (1);
+	new->num = 0;
+	new->next = NULL;
+	return (new);
+}
+
+Unit *init_Unit(void)
+{
+	Unit *new;
+
+	new = (Unit *)malloc(sizeof(Unit *));
+	if (!new)
+		exit (1);
+	new->num = 0;
+	new->next = NULL;
+	new->index = 0;
+	return (new);
+}
+
+int find_max(Stack *stack)
+{
+	int	max;
+
+	max = 0;
+	printf("%d", stack->num);
+	while (stack->next != NULL)
+	{
+		if (stack->num > max)
+			max = stack->num;
+		stack = stack->next;
+	}
+	return (max);
+}
+
+void ft_swap(Stack *elem)
+{
+	int num;
+
+	if (!elem)
+		exit (1);
+	num = elem->num;
+	elem->num = elem->next->num;
+	elem->next->num = num;
+}
+
+void sort_3(Stack *stack)
+{
+	int max;
+
+	max = find_max(stack);
+	//printf("%d", (*A)->num);
+}
+
+void check_num(int argc, Stack *stack)
+{
+	if (argc == 3 && (stack->num > stack->next->num))
+		printf("cou");
+		//ft_swap(*stack);
+//	else if (argc == 4)
+//		sort_3(stack);
+}
+
+Stack *init(int argc, char **argv)
+{
+	int i;
+	Unit *stack;
+	Unit *curr;
+
+	stack = init_Unit();
+	curr = stack;
+	i = 1;
+	curr = (Stack *)malloc(sizeof(Stack *));
+	if (!curr)
+		exit (1);
+	while (i < argc)
+	{
+		curr->num = atoi(argv[i]);
+		printf("%d\n", curr->num);
+		if (argv[i + 1] != NULL)
+		{
+			curr->next = init_Stack();
+			curr = curr->next;
+		}
+		i++;
+	}
+	return (stack);
+}
 
 int main(int argc, char **argv)
 {
-	int i;
-	Stack *stackA;
-	//Stack *stackB;
+	Stack *deck;
 
-	i = 1;
-	stackA = malloc(sizeof(Stack));
-	while (i < argc)
-	{
-		stackA->x = atoi(argv[i]);
-		stackA = stackA->next;
-		i++;
-	}
-	Stack	*curr = stackA;
-
-	while (curr != NULL)
-	{
-		printf("%d\n", curr->x);
-		curr = curr->next;
-	}
+	deck = init_Stack();
+	deck->A = init(argc, argv);
+	printf("%d", deck->A->num);
+//	check_num(argc, deck->A);
+//	Stack	*curr = stackA;
+//
+//	while (curr != NULL)
+//	{
+//		printf("%d\n", curr->x);
+//		curr = curr->next;
+//	}
 //	while(stackA->next != NULL)
 //	{
 //		printf("%d\n", stackA->x);
