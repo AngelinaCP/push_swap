@@ -1,45 +1,46 @@
 #include "push_swap.h"
 
-
-typedef struct Stack
-{
-	int num;
-	struct Stack *next;
-	struct Stack *A;
-	//int *next;
-} Stack ;
-
-typedef struct Unit
+typedef struct S_Unit
 {
 	int num;
 	struct Unit *next;
 	int index;
 } Unit ;
 
-Stack *init_Stack(void)
+typedef struct S_Stack
+{
+//	int num;
+	struct Unit *A;
+	struct Unit *B;
+} Stack ;
+
+Stack *init_struct(void)
 {
 	Stack *new;
 
 	new = (Stack *)malloc(sizeof(Stack *));
 	if (!new)
 		exit (1);
-	new->num = 0;
-	new->next = NULL;
+	new->A->num = 0;
+	new->A->next = NULL;
+	new->A->index = 0;
+	new->A =
+	new->B = NULL;
 	return (new);
 }
 
-Unit *init_Unit(void)
-{
-	Unit *new;
-
-	new = (Unit *)malloc(sizeof(Unit *));
-	if (!new)
-		exit (1);
-	new->num = 0;
-	new->next = NULL;
-	new->index = 0;
-	return (new);
-}
+//Unit *init_Unit(void)
+//{
+//	Unit *new;
+//
+//	new = (Unit *)malloc(sizeof(Unit *));
+//	if (!new)
+//		exit (1);
+//	new->num = 0;
+//	new->next = NULL;
+//	new->index = 0;
+//	return (new);
+//}
 
 int find_max(Stack *stack)
 {
@@ -90,7 +91,7 @@ Stack *init(int argc, char **argv)
 	Unit *stack;
 	Unit *curr;
 
-	stack = init_Unit();
+	stack = init_struct;();
 	curr = stack;
 	i = 1;
 	curr = (Stack *)malloc(sizeof(Stack *));
@@ -114,7 +115,7 @@ int main(int argc, char **argv)
 {
 	Stack *deck;
 
-	deck = init_Stack();
+	deck = init_struct();
 	deck->A = init(argc, argv);
 	printf("%d", deck->A->num);
 //	check_num(argc, deck->A);

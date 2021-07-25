@@ -185,7 +185,7 @@ int check_if_sorted(int argc, int *stackA)
             return (0);
         i++;
     }
-    printf("Sorted\n");
+    write(1, "Sorted!\n", 8);
     return (1);
 }
 

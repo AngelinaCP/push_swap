@@ -1,5 +1,5 @@
-SRCS	=	push_swap_lists.c ft_atoi.c ft_isdigit.c ft_strlen.c \
-			ft_strncmp.c
+SRCS	=	new_push_swap.c ft_atoi.c ft_isdigit.c ft_strlen.c \
+			ft_strncmp.c	ft_split.c
 
 #SRCS_bonus	=	ft_split.c ft_strjoin.c ft_strncmp.c  \
 #                main_bonus.c  child_process.c process_exec.c \
