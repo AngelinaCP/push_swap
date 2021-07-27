@@ -68,7 +68,7 @@ void check_split(char **split, Unit **tmp)
 	while (split[i])
 	{
 		(*tmp)->num = ft_atoi(split[i]);
-	//	printf("%d ", (*tmp)->num);
+	//	printf("%d ", (*curr)->num);
 		if (split[i + 1] != NULL)
 		{
 			(*tmp)->next = init_Unit(*tmp);
@@ -76,7 +76,7 @@ void check_split(char **split, Unit **tmp)
 		}
 		i++;
 	}
-	//printf("%d ", (*tmp)->num);
+	//printf("%d ", (*curr)->num);
 }
 
 int check_dup(Unit *tmp2)
@@ -192,18 +192,35 @@ int find_min(Unit *new)
 void rotate(Unit **new, int num)
 {
 	//shift up
-	Unit *first;
-	Unit *curr;
 	Unit *tmp;
+	Unit *prev;
 
+	//ft_putstr_fd(str, 1);
+	prev = *new;
 	tmp = *new;
-	first = (*new)->next;
-	curr = *new;
-	while (curr->next)
-		curr = curr->next;
-	tmp->next = NULL;
-	curr->next = tmp;
-	*new = first;
+	if (!tmp->next)
+		return ;
+	while (tmp->next)
+	{
+		prev = tmp;
+		tmp = tmp->next;
+	}
+	prev->next = NULL;
+	tmp->next = *new;
+	*new = tmp;
+	//printf("%d ", (*new)->num);
+//	Unit *first;
+//	Unit *curr;
+//	Unit *tmp;
+//
+//	tmp = *new;
+//	first = (*new)->next;
+//	curr = *new;
+//	while (curr->next)
+//		curr = curr->next;
+//	tmp->next = NULL;
+//	curr->next = tmp;
+//	*new = first;
 	if (num == 1)
 		write(1, "ra\n", 3);
 	if (num == 2)
@@ -218,18 +235,34 @@ void rr(Unit **new)
 
 void	reverse(Unit **new, int num)
 {
-	Unit	*last;
-	Unit	*tmp;
-	Unit 	*curr;
+	Unit *first;
+	Unit *last;
 
-	tmp = *new;
-	curr = *new;
-	while (curr->next->next)
-		curr = curr->next;
-	last = curr->next;
-	curr->next = NULL;
-	last->next = tmp;
-	*new = last;
+	first = *new;
+	if (first->next)
+	{
+		*new = (*new)->next;
+		first->next = NULL;
+	}
+	else
+		return ;
+	last = *new;
+	while (last->next)
+		last = last->next;
+	last->next = first;
+	
+//	Unit	*last;
+//	Unit	*tmp;
+//	Unit 	*curr;
+//
+//	tmp = *new;
+//	curr = *new;
+//	while (curr->next->next)
+//		curr = curr->next;
+//	last = curr->next;
+//	curr->next = NULL;
+//	last->next = tmp;
+//	*new = last;
 	if (num == 1)
 		write(1, "rra\n", 4);
 	if (num == 2)
@@ -329,18 +362,6 @@ void	sort_5(int len, Stack *new)
 		sort_5_num(new);
 }
 
-//int max_mark(Unit *new)
-//{
-//	while (new)
-//	{
-//		if (new->num > new->next->num)
-//		{
-//			new->A-mark = 1;
-//		}
-//		new = new->A->next;
-//	}
-//}
-
 int new_size(Unit *new)
 {
 	int i;
@@ -361,39 +382,121 @@ int count_mark(Unit *new)
 
 	count = 1;
 	tmp  = new;
+	new = new->next;
 	if (new)
 	{
 		while (new->next)
 		{
-			if (new->num > tmp->num)
+			if (new->num < tmp->num)
 			{
 				count++;
 				tmp = new;
 			}
 			new = new->next;
 		}
-		if (new->num > tmp->num)
-		{
+		if (new->num < tmp->num)
 			count++;
-			tmp = new;
-		}
 	}
 	return (count);
 }
 
+void put_mark(Unit **new, int num)
+{
+	Unit	*curr;
+	int 	count;
+	int		count_dup;
+	Unit 	*prev;
+
+	count = 0;
+	curr = *new;
+//	while ((*new)->next)
+//	{
+//		printf("%d ", (*new)->num);
+//		*new = (*new)->next;
+//	}
+	while (curr)
+	{
+		if (curr->num == num)
+			break;
+		count++;
+		curr = curr->next;
+	}
+	count_dup = count;
+	while (count--)
+		reverse(new, 1);
+	prev = *new;
+	prev->mark = 1;
+	curr = (*new)->next;
+	if (curr)
+	{
+		while (curr->next)
+		{
+			if (prev->num > curr->num)
+			{
+				prev = curr;
+				curr->mark = 1;
+			}
+			curr = curr->next;
+		}
+		if (prev->num > curr->num)
+			prev = curr;
+	}
+//	while ((*new)->next)
+//	{
+//		printf("%d ", (*new)->num);
+//		*new = (*new)->next;
+//	}
+	while (count_dup--)
+		rotate(new, 1);
+//	 while ((*new)->next)
+//	 {
+//	 	printf("%d ", (*new)->num);
+//	 	*new = (*new)->next;
+//	 }
+}
+
+void move_from_a_to_b(Stack *new)
+{
+	int size_of_new;
+
+	size_of_new = new_size(new->A);
+	while (size_of_new--)
+	{
+		if (new->A->mark)
+			rotate(&new->A, 1);
+		else
+		{
+			rotate(&new->A, 1);
+			push_b(new);
+		}
+	}
+}
+
 void find_mark(Unit **new)
 {
-	Unit	*tmp;
 	int		count;
 	int 	max;
+	int 	i;
+	int		num;
 
-	tmp = (*new)->next;
+	i = 0;
 	count = new_size(*new);
 	while (count--)
 	{
-		max = count_mark(new->A);
-		rotate(new, 1);
+		max = count_mark(*new);
+		if (i < max)
+		{
+			i = max;
+			num = (*new)->num;
+		}
+		rotate(new, 0);
 	}
+	while ((*new)->next)
+	{
+		printf("%d ", (*new)->num);
+		*new = (*new)->next;
+	}
+	put_mark(new, num);
 }
 
 void	sort_stack(int len, Stack *new)
@@ -403,7 +506,16 @@ void	sort_stack(int len, Stack *new)
 	else if (len <= 5)
 		sort_5(len, new);
 	else
+	{
 		find_mark(&new->A);
+//		while ((*new).A->next)
+//		{
+//			printf("%d ", (*new).A->num);
+//			(*new).A = (*new).A->next;
+//		}
+	//	move_from_a_to_b(new);
+	}
+
 }
 
 int main(int argc, char **argv)
