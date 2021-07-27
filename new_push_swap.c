@@ -372,11 +372,46 @@ int min_steps(Unit *stack_a, Unit *stack_b)
 
 void do_rr(Unit *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
 {
-		while (tmp_a->rr-- && tmp_b->rr--)
-			rr(stack_a, stack_b);
+	while (tmp_a->rr-- && tmp_b->rr--)
+		rr(&stack_a, &stack_b);
+	while (tmp_a->rr--)
+		rr(&stack_a, &stack_b);
+	while (tmp_b->rr--)
+		rr(&stack_a, &stack_b);
 }
 
-void do_operations(Unit *tmp_a, Unit *tmp_b, Unit *stack_a, Unit *stack_b)
+void do_rrr(Unit *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
+{
+	while (tmp_a->rra-- && tmp_b->rra--)
+		rrr(&stack_a, &stack_b);
+	while (tmp_a->rra--)
+		rrr(&stack_a, &stack_b);
+	while (tmp_b->rra--)
+		rrr(&stack_a, &stack_b);
+}
+void do_ra_a_rra_b(Unit *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
+{
+	while (tmp_a->rr--)
+		rotate(&stack_a, 1);
+	while (tmp_b->rra--)
+		reverse(&stack_b, 2);
+}
+
+void do_ra_b_rra_a(Unit *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
+{
+	(void)stack_a;
+	(void)stack_b;
+	(void)tmp_a;
+	(void)tmp_b;
+	(void)tmp_a;
+//	while (tmp_b->rr--)
+//		rotate(&stack_b, 2);
+//	while (tmp_a->rra--)
+//		reverse(&stack_a, 1);
+}
+
+
+void do_operations(Unit *tmp_a, Unit *tmp_b, Unit *stack_a, Unit *stack_b, Stack *new)
 {
 	int rr;
 	int rrr;
@@ -385,11 +420,19 @@ void do_operations(Unit *tmp_a, Unit *tmp_b, Unit *stack_a, Unit *stack_b)
 
 	rr = find_max_ab(tmp_a->rr, tmp_b->rr);
 	rrr = find_max_ab(tmp_a->rra, tmp_b->rra);
-	ra_a_rra_b = tmp_a->rr + tmp->rra;
+	ra_a_rra_b = tmp_a->rr + tmp_b->rra;
 	ra_b_rrs_a = tmp_b->rr + tmp_a->rra;
+
+	(void)new;
 	if (rr <= rrr && rr <= ra_a_rra_b && rr <= ra_b_rrs_a)
 		do_rr(stack_a, stack_b, tmp_a, tmp_b);
-
+	else if (rrr <= rr && rrr <= ra_a_rra_b && rrr <= ra_b_rrs_a)
+		do_rrr(stack_a, stack_b, tmp_a, tmp_b);
+	else if (ra_a_rra_b <= rr && ra_a_rra_b <= rrr && ra_a_rra_b <= ra_b_rrs_a)
+		do_ra_a_rra_b(stack_a, stack_b, tmp_a, tmp_b);
+	else if (ra_b_rrs_a <= rr && ra_b_rrs_a <= rrr && ra_b_rrs_a <= ra_a_rra_b)
+		do_ra_b_rra_a(stack_a, stack_b, tmp_a, tmp_b);
+	//push_a(new);
 }
 
 void find_two_pairs(Stack *new)
@@ -415,7 +458,7 @@ void find_two_pairs(Stack *new)
 	}
 	tmp_b->next = NULL;
 	tmp_a->next = NULL;
-	do_operations(tmp_a, tmp_b, new->A, new->B);
+	do_operations(tmp_a, tmp_b, new->A, new->B, new);
 }
 
 void	move_from_b_to_a(Stack *new)

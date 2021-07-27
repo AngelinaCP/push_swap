@@ -90,10 +90,10 @@ void	reverse(Unit **new, int num)
 		write(1, "rrb\n", 4);
 }
 
-void rrr(Unit **new)
+void rrr(Unit **new, Unit **new_2)
 {
 	reverse(new, 1);
-	reverse(new, 2);
+	reverse(new_2, 2);
 }
 
 void push_b(Stack *new)
