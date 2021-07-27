@@ -48,10 +48,10 @@ void rotate(Unit **new, int num)
 		write(1, "rb\n", 3);
 }
 
-void rr(Unit **new)
+void rr(Unit **new, Unit **new_2)
 {
 	rotate(new, 1);
-	rotate(new, 2);
+	rotate(new_2, 2);
 }
 
 void	reverse(Unit **new, int num)

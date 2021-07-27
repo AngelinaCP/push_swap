@@ -10,6 +10,8 @@ typedef struct	S_Unit
 	int num;
 	int	index;
 	int mark;
+	int rr;
+	int rra;
 	struct S_Unit *next;
 }				Unit;
 
@@ -26,7 +28,7 @@ char	**ft_split(char const *s, char c);
 int		ft_atoi(const char *str);
 void	ft_swap(Unit **new, int num);
 void	rotate(Unit **new, int num);
-void	rr(Unit **new);
+void rr(Unit **new, Unit **new_2);
 void	reverse(Unit **new, int num);
 void	rrr(Unit **new);
 void	push_b(Stack *new);
