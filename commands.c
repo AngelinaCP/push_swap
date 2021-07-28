@@ -1,13 +1,13 @@
 
 #include "push_swap.h"
 
-void ft_swap(Unit **new, int num)
+void ft_swap(Unit *new, int num)
 {
 	int tmp;
 
-	tmp = (*new)->num;
-	(*new)->num = (*new)->next->num;
-	(*new)->next->num = tmp;
+	tmp = new->num;
+	new->num = new->next->num;
+	new->next->num = tmp;
 	if (num == 1)
 		write(1, "sa\n", 3);
 }
@@ -52,6 +52,7 @@ void rr(Unit **new, Unit **new_2)
 {
 	rotate(new, 1);
 	rotate(new_2, 2);
+	write(1, "rr\n", 3);
 }
 
 void	reverse(Unit **new, int num)
@@ -94,6 +95,7 @@ void rrr(Unit **new, Unit **new_2)
 {
 	reverse(new, 1);
 	reverse(new_2, 2);
+	write(1, "rrr\n", 4);
 }
 
 void push_b(Stack *new)

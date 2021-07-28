@@ -173,7 +173,7 @@ int count_mark(Unit *new)
 	return (count);
 }
 
-void put_mark(Unit **new, int num)
+void put_mark(Unit *new, int num)
 {
 	Unit	*curr;
 	int 	count;
@@ -181,7 +181,7 @@ void put_mark(Unit **new, int num)
 	Unit 	*prev;
 
 	count = 0;
-	curr = *new;
+	curr = new;
 	while (curr)
 	{
 		if (curr->num == num)
@@ -191,10 +191,10 @@ void put_mark(Unit **new, int num)
 	}
 	count_dup = count;
 	while (count--)
-		reverse(new, 1);
-	prev = *new;
+		reverse(&new, 1);
+	prev = new;
 	prev->mark = 1;
-	curr = (*new)->next;
+	curr = new->next;
 	if (curr)
 	{
 		while (curr->next)
@@ -210,17 +210,18 @@ void put_mark(Unit **new, int num)
 			curr->mark = 1;
 	}
 	while (count_dup--)
-		rotate(new, 1);
+		rotate(&new, 1);
 }
 
-Unit *find_max_struct(Unit **new)
+Unit *find_max_struct(Unit *new)
 {
 	int max;
 	Unit *curr;
 	Unit *tmp;
 
-	max = (*new)->num;
-	curr = *new;
+	max = new->num;
+	curr = new;
+	tmp = new;
 	while (curr)
 	{
 		if (curr->next)
@@ -236,14 +237,15 @@ Unit *find_max_struct(Unit **new)
 	return (tmp);
 }
 
-Unit *find_min_struct(Unit **new)
+Unit *find_min_struct(Unit *new)
 {
 	int min;
 	Unit *curr;
 	Unit *tmp;
 
-	min = (*new)->num;
-	curr = *new;
+	min = new->num;
+	curr = new;
+	tmp = new;
 	while (curr)
 	{
 		if (curr->next)
@@ -278,7 +280,7 @@ void move_from_a_to_b(Stack *new)
 	}
 }
 
-void find_mark(Unit **new)
+void find_mark(Unit *new)
 {
 	int		count;
 	int 	max;
@@ -286,16 +288,16 @@ void find_mark(Unit **new)
 	int		num;
 
 	i = 0;
-	count = new_size(*new);
+	count = new_size(new);
 	while (count--)
 	{
-		max = count_mark(*new);
+		max = count_mark(new);
 		if (i < max)
 		{
 			i = max;
-			num = (*new)->num;
+			num = new->num;
 		}
-		rotate(new, 0);
+		rotate(&new, 0);
 	}
 	put_mark(new, num);
 }
@@ -304,42 +306,53 @@ void	find_rr_rra(Unit *new)
 {
 	int size;
 	int i;
+	Unit *tmp;
 
 	i = 1;
+	tmp = new;
 	size = new_size(new);
-	while (size--)
+	//printf("size: %d\n", size);
+	while (tmp)
 	{
-		new->rr = size - 1;
-		new->rra = i;
+		tmp->rr = size - 1;
+		tmp->rra = i;
 		i++;
+		tmp = tmp->next;
 	}
+//	printf("|1: %d\n", new->rr);
+//	printf("|1: %d\n", new->rra);
 }
 
-Unit	*find_pair_from_a(Stack **new, int num)
+Unit	*find_pair_from_a(Unit *new, int num)
 {
+//	(void)new;
+//	(void)num;
+//	return (NULL);
 	Unit *prev;
 	Unit *curr;
-
-	prev = (*new)->A;
-	curr = (*new)->A;
-	if ((*new)->A->next)
-		(*new)->A = (*new)->A->next;
-	while ((*new)->A->next)
+	Unit *tmp;
+	tmp = new;
+	prev = new;
+	curr = new;
+	if (tmp->next)
+		tmp = tmp->next;
+	while (tmp->next)
 	{
-		if (prev->num < num && (*new)->A->num > num)
+		if (prev->num < num && tmp->num > num)
 			return (prev);
-		prev = (*new)->A;
-		(*new)->A = (*new)->A->next;
+		prev = tmp;
+		tmp = tmp->next;
 	}
-	if (find_max_struct(&(*new)->A)->num < num)
-		return (find_min_struct(&(*new)->A));
+	if (find_max_struct(new)->num < num)
+		return (find_min_struct(new));
 	if (curr->num < num)
 	{
 		while (curr)
 			curr = curr->next;
 		return (curr);
 	}
-	return (find_min_struct(&(*new)->A));
+	//printf("%d \n", new->num);
+	return (find_min_struct(new));
 }
 
 int find_max_ab(int a, int b)
@@ -370,68 +383,102 @@ int min_steps(Unit *stack_a, Unit *stack_b)
 	return (ra_a_rra_b);
 }
 
-void do_rr(Unit *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
+void do_rr(Stack *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
 {
-	while (tmp_a->rr-- && tmp_b->rr--)
-		rr(&stack_a, &stack_b);
-	while (tmp_a->rr--)
-		rr(&stack_a, &stack_b);
-	while (tmp_b->rr--)
-		rr(&stack_a, &stack_b);
+//	printf("4: %d\n", tmp_a->rr);
+//	printf("4: %d\n", tmp_b->rra);
+//	printf("\n");
+//	(void)tmp_a;
+//	(void)tmp_b;
+//	(void)stack_a;
+	(void)stack_b;
+	while (tmp_a->rr-- > 0 && tmp_b->rr-- > 0)
+		rr(&stack_a->A, &stack_a->B);
+	while (tmp_a->rr-- > 0)
+		rotate(&stack_a->A, 1);
+	while (tmp_b->rr-- > 0)
+		rotate(&stack_a->B, 2);
 }
 
-void do_rrr(Unit *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
+void do_rrr(Stack *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
 {
-	while (tmp_a->rra-- && tmp_b->rra--)
-		rrr(&stack_a, &stack_b);
-	while (tmp_a->rra--)
-		rrr(&stack_a, &stack_b);
-	while (tmp_b->rra--)
-		rrr(&stack_a, &stack_b);
-}
-void do_ra_a_rra_b(Unit *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
-{
-	while (tmp_a->rr--)
-		rotate(&stack_a, 1);
-	while (tmp_b->rra--)
+	(void)stack_b;
+	while (tmp_a->rra-- > 0 && tmp_b->rra-- > 0)
+		rrr(&stack_a->A, &stack_a->B);
+	while (tmp_a->rra-- > 0)
+		reverse(&stack_a->A, 1);
+	while (tmp_b->rra-- > 0)
 		reverse(&stack_b, 2);
 }
 
-void do_ra_b_rra_a(Unit *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
+void do_ra_a_rra_b(Stack *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
 {
-	(void)stack_a;
 	(void)stack_b;
-	(void)tmp_a;
-	(void)tmp_b;
-	(void)tmp_a;
-//	while (tmp_b->rr--)
-//		rotate(&stack_b, 2);
-//	while (tmp_a->rra--)
-//		reverse(&stack_a, 1);
+	while (tmp_a->rr > 0)
+	{
+		rotate(&stack_a->A, 1);
+		tmp_a->rr--;
+	}
+	while (tmp_b->rra > 0)
+	{
+		reverse(&stack_a->B, 2);
+		tmp_b->rra--;
+	}
 }
 
+void do_ra_b_rra_a(Stack *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
+{
+	(void)stack_b;
+	while (tmp_b->rr > 0)
+	{
+		rotate(&stack_a->B, 2);
+		tmp_b->rr--;
+	}
+	while (tmp_a->rra > 0)
+	{
+		reverse(&stack_a->A, 1);
+		tmp_a->rra--;
+	}
+}
 
-void do_operations(Unit *tmp_a, Unit *tmp_b, Unit *stack_a, Unit *stack_b, Stack *new)
+void do_operations(Unit *tmp_a, Unit *tmp_b, Stack *stack_a, Stack *stack_b, Stack *new)
 {
 	int rr;
 	int rrr;
 	int	ra_a_rra_b;
 	int ra_b_rrs_a;
 
-	rr = find_max_ab(tmp_a->rr, tmp_b->rr);
-	rrr = find_max_ab(tmp_a->rra, tmp_b->rra);
-	ra_a_rra_b = tmp_a->rr + tmp_b->rra;
-	ra_b_rrs_a = tmp_b->rr + tmp_a->rra;
-
+	(void)tmp_a;
+	(void)tmp_b;
+	(void)stack_a;
+	(void)stack_b;
+	rr = find_max_ab((*tmp_a).rr, (*tmp_b).rr);
+	rrr = find_max_ab((*tmp_a).rra, (*tmp_b).rra);
+	ra_a_rra_b = (*tmp_a).rr + (*tmp_b).rra;
+	ra_b_rrs_a = (*tmp_b).rr + (*tmp_a).rra;
+//	printf("4: %d\n", (*tmp_a)->rr);
+//	printf("4: %d\n", (*tmp_b)->rra);
 	(void)new;
 	if (rr <= rrr && rr <= ra_a_rra_b && rr <= ra_b_rrs_a)
-		do_rr(stack_a, stack_b, tmp_a, tmp_b);
+		do_rr(stack_a, stack_a->B, tmp_a, tmp_b);
 	else if (rrr <= rr && rrr <= ra_a_rra_b && rrr <= ra_b_rrs_a)
-		do_rrr(stack_a, stack_b, tmp_a, tmp_b);
+		do_rrr(stack_a, stack_a->B, tmp_a, tmp_b);
 	else if (ra_a_rra_b <= rr && ra_a_rra_b <= rrr && ra_a_rra_b <= ra_b_rrs_a)
-		do_ra_a_rra_b(stack_a, stack_b, tmp_a, tmp_b);
+		do_ra_a_rra_b(stack_a, stack_a->B, tmp_a, tmp_b);
 	else if (ra_b_rrs_a <= rr && ra_b_rrs_a <= rrr && ra_b_rrs_a <= ra_a_rra_b)
-		do_ra_b_rra_a(stack_a, stack_b, tmp_a, tmp_b);
+		do_ra_b_rra_a(stack_a, stack_b->B, tmp_a, tmp_b);
+//	printf("A: %d \n", new->A->num);
+	//printf("B: %d \n", new->B->num);
+//	while (new->A)
+//	{
+//		printf("%d ", new->A->num);
+//		new->A = new->A->next;
+//	}
+//	while (new->B)
+//	{
+//		printf("%d ", new->B->num);
+//		new->B = new->B->next;
+//	}
 	//push_a(new);
 }
 
@@ -439,39 +486,88 @@ void find_two_pairs(Stack *new)
 {
 	Unit	*stack_a;
 	Unit	*stack_b;
-	Unit	*tmp_a;
-	Unit 	*tmp_b;
+	Unit	tmp_a;
+	Unit 	tmp_b;
 	int		steps;
 
+	(void)tmp_a;
+	(void)tmp_b;
+	(void)stack_a;
+	(void)stack_b;
+	(void)steps;
 	steps = 2147483647;
 	stack_b = new->B;
 	while (stack_b)
 	{
-		stack_a = find_pair_from_a(&new, stack_b->num);
+		printf("%d\n", new->B->num);
+		stack_a = find_pair_from_a(new->A, stack_b->num);
 		if (steps > min_steps(stack_a, stack_b))
 		{
 			steps = min_steps(stack_a, stack_b);
-			tmp_a = stack_a;
-			tmp_b = stack_b;
+			tmp_a = *stack_a;
+			tmp_b = *stack_b;
 		}
 		stack_b = stack_b->next;
 	}
-	tmp_b->next = NULL;
-	tmp_a->next = NULL;
-	do_operations(tmp_a, tmp_b, new->A, new->B, new);
+	tmp_b.next = NULL;
+	tmp_a.next = NULL;
+	do_operations(&tmp_a, &tmp_b, new, new, new);
+}
+
+Unit *find_min_struct_2(Stack *new)
+{
+	int min;
+	Unit *curr;
+	Unit *tmp;
+
+	min = new->A->num;
+	curr = new->A;
+	tmp = new->A;
+	while (curr)
+	{
+		if (curr->next)
+		{
+			if (min > curr->next->num)
+			{
+				min = curr->next->num;
+				tmp = curr;
+			}
+		}
+		curr = curr->next;
+	}
+	return (tmp);
+
 }
 
 void	move_from_b_to_a(Stack *new)
 {
-//	Stack *stack_a;
-
-	while (new->B)
+	(void)new;
+	//Unit *stack_a;
+	Stack *tmp = new;
+	while (tmp->B)
 	{
-		find_rr_rra(new->A);
-		find_rr_rra(new->B);
-		find_two_pairs(new);
-		new->B = new->B->next;
+//		find_rr_rra(tmp->A);
+//		find_rr_rra(tmp->B);
+		printf("%d\n", new->B->num);
+	//	find_two_pairs(tmp);
+		tmp->B = tmp->B->next;
 	}
+//	find_rr_rra(tmp->A);
+//	stack_a = find_min_struct_2(new);
+//	printf("%d\n", stack_a->next->rr);
+//	printf("%d\n", stack_a->next->rra);
+//	printf("%d\n", new->B->num);
+//	while (new->B)
+//	{
+//		printf("%d\n", new->B->num);
+//		new->B = new->B->next;
+//	}
+//	if (stack_a->rr > stack_a->rra)
+//		while (stack_a->rra-- > 0)
+//			rrr(&new->A, &new->B);
+//	else
+//		while (stack_a->rr-- > 0)
+//			rr(&new->A, &new->B);
 }
 
 void	sort_stack(int len, Stack *new)
@@ -482,15 +578,14 @@ void	sort_stack(int len, Stack *new)
 		sort_5(len, new);
 	else
 	{
-		find_mark(&new->A);
+		find_mark(new->A);
 		move_from_a_to_b(new);
 		move_from_b_to_a(new);
-//		while (new->A)
+	//	printf("%d\n", new->B->num);
+//		while (new->B)
 //		{
-//			if (new->A->mark)
-//				printf("%d", new->A->num);
-//		//	printf("%d ", new->A->num);
-//			new->A = new->A->next;
+//			printf("|%d|\n", new->B->num);
+//			new->B = new->B->next;
 //		}
 	}
 
@@ -517,10 +612,15 @@ int main(int argc, char **argv)
 	while (i++ < argc - 1)
 		len += count_num_argv(*argv);
 	sort_stack(len, new);
-	while (new->A)
-	{
-		printf("%d ", new->A->num);
-		new->A = new->A->next;
-	}
+//	while (new->A)
+//	{
+//		printf("%d ", new->A->num);
+//		new->A = new->A->next;
+//	}
+	printf("\n------------\n");
+//	while (new->B)
+//	{
+//		printf("%d ", new->B->num);
+//		new->B = new->B->next;
+//	}
 }
-

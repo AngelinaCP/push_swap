@@ -44,7 +44,7 @@ void sort_3_num(Stack *new)
 	if (new->A->next->num == max)
 		reverse(&new->A, 1);
 	if (new->A->num > new->A->next->num)
-		ft_swap(&new->A, 1);
+		ft_swap(new->A, 1);
 }
 
 int sort_3(int len, Stack *new)
@@ -52,7 +52,7 @@ int sort_3(int len, Stack *new)
 	if (len == 1)
 		return (1);
 	else if (len == 2)
-		ft_swap(&new->A, 1);
+		ft_swap(new->A, 1);
 	else if (len == 3)
 		sort_3_num(new);
 	return (0);
