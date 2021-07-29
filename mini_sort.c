@@ -40,9 +40,9 @@ void sort_3_num(Stack *new)
 
 	max = find_max(new->A);
 	if (new->A->num == max)
-		rotate(&new->A, 1);
-	if (new->A->next->num == max)
 		reverse(&new->A, 1);
+	if (new->A->next->num == max)
+		rotate(&new->A, 1);
 	if (new->A->num > new->A->next->num)
 		ft_swap(new->A, 1);
 }
@@ -65,7 +65,7 @@ void	sort_4_num(Stack *new)
 		if (new->A->num == find_min(new->A))
 			push_b(new);
 		else
-			rotate(&new->A, 1);
+			reverse(&new->A, 1);
 	}
 	sort_3(3 , new);
 	push_a(new);
@@ -78,7 +78,7 @@ void	sort_5_num(Stack *new)
 		if (new->A->num == find_min(new->A))
 			push_b(new);
 		else
-			rotate(&new->A, 1);
+			reverse(&new->A, 1);
 	}
 	sort_3(3, new);
 	push_a(new);

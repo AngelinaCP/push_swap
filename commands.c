@@ -14,6 +14,9 @@ void ft_swap(Unit *new, int num)
 
 void rotate(Unit **new, int num)
 {
+
+//	(void)new;
+//	(void)num;
 	Unit *tmp;
 	Unit *prev;
 
@@ -29,19 +32,6 @@ void rotate(Unit **new, int num)
 	prev->next = NULL;
 	tmp->next = *new;
 	*new = tmp;
-
-//	Unit *first;
-//	Unit *curr;
-//	Unit *tmp;
-//
-//	tmp = *new;
-//	first = (*new)->next;
-//	curr = *new;
-//	while (curr->next)
-//		curr = curr->next;
-//	tmp->next = NULL;
-//	curr->next = tmp;
-//	*new = first;
 	if (num == 1)
 		write(1, "ra\n", 3);
 	if (num == 2)
@@ -50,8 +40,10 @@ void rotate(Unit **new, int num)
 
 void rr(Unit **new, Unit **new_2)
 {
-	rotate(new, 1);
-	rotate(new_2, 2);
+//	reverse(new, 1);
+//	reverse(new_2, 2);
+	rotate(new, 0);
+	rotate(new_2, 0);
 	write(1, "rr\n", 3);
 }
 
@@ -73,6 +65,7 @@ void	reverse(Unit **new, int num)
 		last = last->next;
 	last->next = first;
 
+
 //	Unit	*last;
 //	Unit	*tmp;
 //	Unit 	*curr;
@@ -93,8 +86,10 @@ void	reverse(Unit **new, int num)
 
 void rrr(Unit **new, Unit **new_2)
 {
-	reverse(new, 1);
-	reverse(new_2, 2);
+	reverse(new, 0);
+	reverse(new_2, 0);
+//	rotate(new, 1);
+//	rotate(new_2, 2);
 	write(1, "rrr\n", 4);
 }
 
@@ -111,7 +106,6 @@ void push_b(Stack *new)
 	buf->next = new->B;
 	new->B = buf;
 	write(1, "pb\n", 3);
-
 }
 
 void push_a(Stack *new)
