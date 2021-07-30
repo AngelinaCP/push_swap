@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/ddelena/Documents/projects/push_swap/commands.c
+push_swap.h
+/Users/ddelena/Documents/projects/push_swap/push_swap.h
+
+/Users/ddelena/Documents/projects/push_swap/push_swap.h
+stdio.h
+-
+stdlib.h
+-
+unistd.h
+-
+

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/push_swap.iml" filepath="$PROJECT_DIR$/.idea/push_swap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/push_swap2.iml" filepath="$PROJECT_DIR$/.idea/push_swap2.iml" />
     </modules>
   </component>
 </project>

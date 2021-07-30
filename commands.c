@@ -110,15 +110,43 @@ void push_b(Stack *new)
 
 void push_a(Stack *new)
 {
-	Unit *buf;
+	Unit *tmp_a;
+	Unit *tmp_b;
+	Unit *prev_b;
 
-	if (new == NULL)
+	tmp_a = new->A;
+	tmp_b = new->B;
+	prev_b = new->B;
+	if (tmp_b)
+	{
+		if (!tmp_b->next)
+			new->B = NULL;
+		while (tmp_b->next)
+		{
+				prev_b = tmp_b;
+			tmp_b = tmp_b->next;
+		}
+		prev_b->next = NULL;
+	}
+	else
 		return ;
-	new->num_A++;
-	new->num_B--;
-	buf = new->B;
-	new->B = new->B->next;
-	buf->next = new->A;
-	new->A = buf;
-	write(1, "pa\n", 3);
+	if (tmp_a)
+	{
+		while (tmp_a->next)
+			tmp_a = tmp_a->next;
+		tmp_a->next = tmp_b;
+	}
+	else
+		new->A = tmp_b;
+//	Unit *buf;
+//
+//	if (new == NULL)
+//		return ;
+//	new->num_A++;
+//	new->num_B--;
+//	buf = new->B;
+//	new->B = new->B->next;
+//	buf->next = new->A;
+//	new->A = buf;
+//	write(1, "pa\n", 3);
 }
