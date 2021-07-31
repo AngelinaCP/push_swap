@@ -148,5 +148,5 @@ void push_a(Stack *new)
 //	new->B = new->B->next;
 //	buf->next = new->A;
 //	new->A = buf;
-//	write(1, "pa\n", 3);
+	write(1, "pa\n", 3);
 }
