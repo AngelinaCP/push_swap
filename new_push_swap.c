@@ -14,7 +14,6 @@ void error()
 	exit (1);
 }
 
-
 Unit *find_min_struct_2(Stack *new)
 {
 	int min;
@@ -56,70 +55,6 @@ int count_num_argv(char *argv)
 	return (count);
 }
 
-Unit *init_Unit(Unit *tmp)
-{
-	tmp = (Unit *)malloc(sizeof(Unit));
-	tmp->index = 0;
-	tmp->next = NULL;
-	tmp->num = 0;
-	return (tmp);
-}
-
-int check_split(char **split, Unit **tmp)
-{
-	int i;
-
-	i = 0;
-	while (split[i])
-	{
-		if (!((*tmp)->num = ft_atoi(split[i])))
-			return (1);
-		if (split[i + 1] != NULL)
-		{
-			(*tmp)->next = init_Unit(*tmp);
-			*tmp = (*tmp)->next;
-		}
-		i++;
-	}
-	return (0);
-}
-
-int check_dup(Unit *tmp2)
-{
-	Unit *tmp;
-
-	while (tmp2)
-	{
-		if (tmp2->next)
-			tmp = tmp2->next;
-		else
-			break ;
-		while (tmp)
-		{
-			if (tmp->num == tmp2->num)
-				return (1);
-			tmp = tmp->next;
-		}
-		tmp2 = tmp2->next;
-	}
-	return (0);
-}
-
-int check_if_sorted(Unit *tmp)
-{
-	while (tmp->next)
-	{
-		if (tmp->next)
-		{
-			if (tmp->num < tmp->next->num)
-				return (0);
-		}
-		tmp = tmp->next;
-	}
-	write(1, "Sorted!\n", 8);
-	return (1);
-}
-
 void reverse_root(Unit **root)
 {
 	Unit *prev = NULL;
@@ -135,13 +70,14 @@ void reverse_root(Unit **root)
 	*root = prev;
 }
 
+
 Unit	*split_argv(int argc, char **argv)
 {
-	int i;
-	char **split;
-	Unit *tmp;
-	Unit *tmp2;
-	Unit *new;
+	int		i;
+	char	**split;
+	Unit 	*tmp;
+	Unit	*tmp2;
+	Unit	*new;
 
 	i = 1;
 	new = NULL;
@@ -149,9 +85,16 @@ Unit	*split_argv(int argc, char **argv)
 	split = NULL;
 	tmp2 = init_Unit(tmp);
 	tmp = tmp2;
+	int j = 0;
 	while (i < argc)
 	{
 		split = ft_split(argv[i], ' ');
+		while (split[j])
+		{
+			if (!check(split[j]))
+				exit(1);
+			j++;
+		}
 		if (check_split(split, &tmp))
 			error();
 		if (i < argc - 1)
@@ -222,7 +165,6 @@ void put_mark(Unit *new, int num)
 	count_dup = count;
 	while (count--)
 		reverse(&new, 0);
-	//changed from reverse to rotate
 	prev = new;
 	prev->mark = 1;
 	curr = new->next;
@@ -291,7 +233,7 @@ void move_from_a_to_b(Stack *new)
 	{
 		if (!new->A->mark)
 		{
-			push_b(new);
+			push_b(&new);
 			rotate(&new->A, 1);
 		}
 		else
@@ -394,94 +336,6 @@ int min_steps(Unit *stack_a, Unit *stack_b)
 	if (ra_b_rrs_a <= rr && ra_b_rrs_a <= rrr && ra_b_rrs_a <= ra_a_rra_b)
 		return (ra_b_rrs_a);
 	return (ra_a_rra_b);
-}
-
-void do_rr(Stack *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
-{
-	(void)stack_b;
-	while (tmp_a->rr > 0 && tmp_b->rr > 0)
-	{
-		rr(&stack_a->A, &stack_a->B);
-		tmp_a->rr--;
-		tmp_b->rr--;
-	}
-	while (tmp_a->rr--)
-		rotate(&stack_a->A, 1);
-	while (tmp_b->rr--)
-		rotate(&stack_a->B, 2);
-}
-
-void do_rrr(Stack *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
-{
-	(void)stack_b;
-	while (tmp_a->rra > 0 && tmp_b->rra > 0)
-	{
-			rrr(&stack_a->A, &stack_a->B);
-			tmp_a->rra--;
-			tmp_b->rra--;
-	}
-	while (tmp_a->rra-- > 0)
-		reverse(&stack_a->A, 1);
-	while (tmp_b->rra-- > 0)
-		reverse(&stack_a->B, 2);
-}
-
-void do_ra_a_rra_b(Stack *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
-{
-	(void)stack_b;
-	while (tmp_b->rra > 0)
-	{
-		reverse(&stack_a->B, 2);
-		tmp_b->rra--;
-	}
-	while (tmp_a->rr > 0)
-	{
-		rotate(&stack_a->A, 1);
-		tmp_a->rr--;
-	}
-}
-
-void do_ra_b_rra_a(Stack *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
-{
-	(void)stack_b;
-	while (tmp_a->rra > 0)
-	{
-		reverse(&stack_a->A, 1);
-		tmp_a->rra--;
-	}
-	while (tmp_b->rr > 0)
-	{
-		rotate(&stack_a->B, 2);
-		tmp_b->rr--;
-	}
-}
-
-void do_operations(Unit *tmp_a, Unit *tmp_b, Stack **stack_a, Stack *stack_b, Stack *new)
-{
-	int rr;
-	int rrr;
-	int	ra_a_rra_b;
-	int ra_b_rrs_a;
-
-	(void)tmp_a;
-	(void)tmp_b;
-	(void)stack_a;
-	(void)stack_b;
-	(void)new;
-
-	rr = find_max_ab((*tmp_a).rr, (*tmp_b).rr);
-	rrr = find_max_ab((*tmp_a).rra, (*tmp_b).rra);
-	ra_a_rra_b = (*tmp_b).rra + (*tmp_a).rr;
-	ra_b_rrs_a = (*tmp_a).rra + (*tmp_b).rr;
-	if (rr <= rrr && rr <= ra_a_rra_b && rr <= ra_b_rrs_a)
-	 	do_rr((*stack_a), (*stack_a)->B, tmp_a, tmp_b);
-	else if (rrr <= rr && rrr <= ra_a_rra_b && rrr <= ra_b_rrs_a)
-		do_rrr((*stack_a), (*stack_a)->B, tmp_a, tmp_b);
-	else if (ra_a_rra_b <= rr && ra_a_rra_b <= rrr && ra_a_rra_b <= ra_b_rrs_a)
-		do_ra_a_rra_b((*stack_a), (*stack_a)->B, tmp_a, tmp_b);
-	else if (ra_b_rrs_a <= rr && ra_b_rrs_a <= rrr && ra_b_rrs_a <= ra_a_rra_b)
-		do_ra_b_rra_a((*stack_a), (*stack_a)->B, tmp_a, tmp_b);
-	push_a(new);
 }
 
 void find_two_pairs(Stack **new)
@@ -587,10 +441,11 @@ int main(int argc, char **argv)
 	if (check_dup(new->A))
 		error();
 	if (check_if_sorted(new->A))
-		error();
+		exit (1);
 	while (i++ < argc - 1)
 		len += count_num_argv(*argv);
 	sort_stack(len, new);
+	// check_if_sorted(new->A);
 	while (new->A)
 	{
 		printf("%d ", new->A->num);

@@ -4,14 +4,14 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/Users/ddelena/Documents/projects/push_swap copy/commands.c" "/Users/ddelena/Documents/projects/push_swap copy/cmake-build-debug/CMakeFiles/push_swap.dir/commands.c.o"
-  "/Users/ddelena/Documents/projects/push_swap copy/ft_atoi.c" "/Users/ddelena/Documents/projects/push_swap copy/cmake-build-debug/CMakeFiles/push_swap.dir/ft_atoi.c.o"
-  "/Users/ddelena/Documents/projects/push_swap copy/ft_isdigit.c" "/Users/ddelena/Documents/projects/push_swap copy/cmake-build-debug/CMakeFiles/push_swap.dir/ft_isdigit.c.o"
-  "/Users/ddelena/Documents/projects/push_swap copy/ft_split.c" "/Users/ddelena/Documents/projects/push_swap copy/cmake-build-debug/CMakeFiles/push_swap.dir/ft_split.c.o"
-  "/Users/ddelena/Documents/projects/push_swap copy/ft_strlen.c" "/Users/ddelena/Documents/projects/push_swap copy/cmake-build-debug/CMakeFiles/push_swap.dir/ft_strlen.c.o"
-  "/Users/ddelena/Documents/projects/push_swap copy/ft_strncmp.c" "/Users/ddelena/Documents/projects/push_swap copy/cmake-build-debug/CMakeFiles/push_swap.dir/ft_strncmp.c.o"
-  "/Users/ddelena/Documents/projects/push_swap copy/mini_sort.c" "/Users/ddelena/Documents/projects/push_swap copy/cmake-build-debug/CMakeFiles/push_swap.dir/mini_sort.c.o"
-  "/Users/ddelena/Documents/projects/push_swap copy/new_push_swap.c" "/Users/ddelena/Documents/projects/push_swap copy/cmake-build-debug/CMakeFiles/push_swap.dir/new_push_swap.c.o"
+  "/Users/ddelena/Desktop/my_push_swap/commands.c" "/Users/ddelena/Desktop/my_push_swap/cmake-build-debug/CMakeFiles/push_swap.dir/commands.c.o"
+  "/Users/ddelena/Desktop/my_push_swap/ft_atoi.c" "/Users/ddelena/Desktop/my_push_swap/cmake-build-debug/CMakeFiles/push_swap.dir/ft_atoi.c.o"
+  "/Users/ddelena/Desktop/my_push_swap/ft_isdigit.c" "/Users/ddelena/Desktop/my_push_swap/cmake-build-debug/CMakeFiles/push_swap.dir/ft_isdigit.c.o"
+  "/Users/ddelena/Desktop/my_push_swap/ft_split.c" "/Users/ddelena/Desktop/my_push_swap/cmake-build-debug/CMakeFiles/push_swap.dir/ft_split.c.o"
+  "/Users/ddelena/Desktop/my_push_swap/ft_strlen.c" "/Users/ddelena/Desktop/my_push_swap/cmake-build-debug/CMakeFiles/push_swap.dir/ft_strlen.c.o"
+  "/Users/ddelena/Desktop/my_push_swap/ft_strncmp.c" "/Users/ddelena/Desktop/my_push_swap/cmake-build-debug/CMakeFiles/push_swap.dir/ft_strncmp.c.o"
+  "/Users/ddelena/Desktop/my_push_swap/mini_sort.c" "/Users/ddelena/Desktop/my_push_swap/cmake-build-debug/CMakeFiles/push_swap.dir/mini_sort.c.o"
+  "/Users/ddelena/Desktop/my_push_swap/new_push_swap.c" "/Users/ddelena/Desktop/my_push_swap/cmake-build-debug/CMakeFiles/push_swap.dir/new_push_swap.c.o"
   )
 set(CMAKE_C_COMPILER_ID "AppleClang")
 

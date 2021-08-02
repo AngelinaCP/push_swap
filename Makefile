@@ -1,19 +1,12 @@
 SRCS	=	new_push_swap.c ft_atoi.c ft_isdigit.c ft_strlen.c \
-			ft_strncmp.c	ft_split.c commands.c mini_sort.c
-
-#SRCS_bonus	=	ft_split.c ft_strjoin.c ft_strncmp.c  \
-#                main_bonus.c  child_process.c process_exec.c \
-#                get_next_line.c get_next_line_utils.c
+			ft_strncmp.c	ft_split.c commands.c mini_sort.c \
+			operations.c   check.c
 
 HEAD		=		push_swap.h
 
 OBJC    	=       ${SRCS:.c=.o}
 
-OBJCB    	=		${SRCS_bonus:.c=.o}
-
 NAME		=       push_swap
-
-#NAMEB		=       pipex_bonus
 
 CC      	=       gcc
 
@@ -28,12 +21,6 @@ all:            $(NAME)
 
 $(NAME):        $(OBJC)
 				$(CC) $(OBJC)  -o $(NAME)
-
-#bonus:			$(NAMEB)
-
-#$(NAMEB):		$(OBJCB)
-#				gcc -c $(SRCS_bonus)
-#				$(CC) $(OBJCB) -o $(NAMEB)
 
 clean:
 				${RM} ${OBJC} ${OBJCB}

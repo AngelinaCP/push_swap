@@ -1,9 +1,8 @@
-
 #include "push_swap.h"
 
-void ft_swap(Unit *new, int num)
+void	ft_swap(Unit *new, int num)
 {
-	int tmp;
+	int	tmp;
 
 	tmp = new->num;
 	new->num = new->next->num;
@@ -12,13 +11,10 @@ void ft_swap(Unit *new, int num)
 		write(1, "sa\n", 3);
 }
 
-void rotate(Unit **new, int num)
+void	rotate(Unit **new, int num)
 {
-
-//	(void)new;
-//	(void)num;
-	Unit *tmp;
-	Unit *prev;
+	Unit	*tmp;
+	Unit	*prev;
 
 	prev = *new;
 	tmp = *new;
@@ -38,10 +34,8 @@ void rotate(Unit **new, int num)
 		write(1, "rb\n", 3);
 }
 
-void rr(Unit **new, Unit **new_2)
+void	rr(Unit **new, Unit **new_2)
 {
-//	reverse(new, 1);
-//	reverse(new_2, 2);
 	rotate(new, 0);
 	rotate(new_2, 0);
 	write(1, "rr\n", 3);
@@ -49,8 +43,8 @@ void rr(Unit **new, Unit **new_2)
 
 void	reverse(Unit **new, int num)
 {
-	Unit *first;
-	Unit *last;
+	Unit	*first;
+	Unit	*last;
 
 	first = *new;
 	if (first->next)
@@ -64,55 +58,59 @@ void	reverse(Unit **new, int num)
 	while (last->next)
 		last = last->next;
 	last->next = first;
-
-
-//	Unit	*last;
-//	Unit	*tmp;
-//	Unit 	*curr;
-//
-//	tmp = *new;
-//	curr = *new;
-//	while (curr->next->next)
-//		curr = curr->next;
-//	last = curr->next;
-//	curr->next = NULL;
-//	last->next = tmp;
-//	*new = last;
 	if (num == 1)
 		write(1, "rra\n", 4);
 	if (num == 2)
 		write(1, "rrb\n", 4);
 }
 
-void rrr(Unit **new, Unit **new_2)
+void	rrr(Unit **new, Unit **new_2)
 {
 	reverse(new, 0);
 	reverse(new_2, 0);
-//	rotate(new, 1);
-//	rotate(new_2, 2);
 	write(1, "rrr\n", 4);
 }
 
-void push_b(Stack *new)
+void	push_b(Stack **new)
 {
-	Unit *buf;
+	Unit	*stack_a;
+	Unit	*stack_b;
+	Unit	*prev;
 
-	if (new == NULL)
+	(*new)->num_B++;
+	(*new)->num_A--;
+	stack_a = (*new)->A;
+	stack_b = (*new)->B;
+	prev = (*new)->B;
+	if ((*new)->A)
+	{
+		if (!stack_a->next)
+			(*new)->A = NULL;
+		while (stack_a->next)
+		{
+			prev = stack_a;
+			stack_a = stack_a->next;
+		}
+		prev->next = NULL;
+	}
+	else
 		return ;
-	new->num_A--;
-	new->num_B++;
-	buf = new->A;
-	new->A = new->A->next;
-	buf->next = new->B;
-	new->B = buf;
+	if ((*new)->B)
+	{
+		while (stack_b->next)
+			stack_b = stack_b->next;
+		stack_b->next = stack_a;
+	}
+	else
+		(*new)->B = stack_a;
 	write(1, "pb\n", 3);
 }
 
-void push_a(Stack *new)
+void	push_a(Stack *new)
 {
-	Unit *tmp_a;
-	Unit *tmp_b;
-	Unit *prev_b;
+	Unit	*tmp_a;
+	Unit	*tmp_b;
+	Unit	*prev_b;
 
 	tmp_a = new->A;
 	tmp_b = new->B;
@@ -123,7 +121,7 @@ void push_a(Stack *new)
 			new->B = NULL;
 		while (tmp_b->next)
 		{
-				prev_b = tmp_b;
+			prev_b = tmp_b;
 			tmp_b = tmp_b->next;
 		}
 		prev_b->next = NULL;
@@ -138,15 +136,5 @@ void push_a(Stack *new)
 	}
 	else
 		new->A = tmp_b;
-//	Unit *buf;
-//
-//	if (new == NULL)
-//		return ;
-//	new->num_A++;
-//	new->num_B--;
-//	buf = new->B;
-//	new->B = new->B->next;
-//	buf->next = new->A;
-//	new->A = buf;
 	write(1, "pa\n", 3);
 }

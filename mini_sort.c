@@ -1,53 +1,47 @@
 #include "push_swap.h"
 
-int find_max(Unit *new)
+int	find_max(Unit *new)
 {
-	int max;
+	int	max;
 
 	max = new->num;
 	while (new)
 	{
-		if (new->next)
-		{
-			if (max < new->next->num)
-				max = new->next->num;
-		}
+		if (max < new->num)
+			max = new->num;
 		new = new->next;
 	}
 	return (max);
 }
 
-int find_min(Unit *new)
+int	find_min(Unit *new)
 {
-	int min;
+	int	min;
 
 	min = new->num;
 	while (new)
 	{
-		if (new->next)
-		{
-			if (min > new->next->num)
-				min = new->next->num;
-		}
+		if (min > new->num)
+			min = new->num;
 		new = new->next;
 	}
 	return (min);
 }
 
-void sort_3_num(Stack *new)
+void	sort_3_num(Stack *new)
 {
-	int max;
+	int	min;
 
-	max = find_max(new->A);
-	if (new->A->num == max)
+	min = find_min(new->A);
+	if (new->A->num == min)
 		reverse(&new->A, 1);
-	if (new->A->next->num == max)
+	if (new->A->next->num == min)
 		rotate(&new->A, 1);
-	if (new->A->num > new->A->next->num)
+	if (new->A->num < new->A->next->num)
 		ft_swap(new->A, 1);
 }
 
-int sort_3(int len, Stack *new)
+int	sort_3(int len, Stack *new)
 {
 	if (len == 1)
 		return (1);
@@ -62,12 +56,12 @@ void	sort_4_num(Stack *new)
 {
 	while (new->num_B < 1)
 	{
-		if (new->A->num == find_min(new->A))
-			push_b(new);
+		if (new->A->num == find_max(new->A))
+			push_b(&new);
 		else
 			reverse(&new->A, 1);
 	}
-	sort_3(3 , new);
+	sort_3(3, new);
 	push_a(new);
 }
 
@@ -76,7 +70,7 @@ void	sort_5_num(Stack *new)
 	while (new->num_B < 2)
 	{
 		if (new->A->num == find_min(new->A))
-			push_b(new);
+			push_b(&new);
 		else
 			reverse(&new->A, 1);
 	}
