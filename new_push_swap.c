@@ -190,7 +190,7 @@ int count_mark(Unit *new)
 	{
 		while (new->next)
 		{
-			if (new->num < tmp->num)
+			if (new->num > tmp->num)
 			{
 				count++;
 				tmp = new;
@@ -390,9 +390,9 @@ int min_steps(Unit *stack_a, Unit *stack_b)
 	if (rrr <= rr && rrr <= ra_a_rra_b && rrr <= ra_b_rrs_a)
 		return (rrr);
 	if (ra_a_rra_b <= rr && ra_a_rra_b <= rrr && ra_a_rra_b <= ra_b_rrs_a)
-		return (ra_b_rrs_a);
-	if (ra_b_rrs_a <= rr && ra_b_rrs_a <= rrr && ra_b_rrs_a <= ra_a_rra_b)
 		return (ra_a_rra_b);
+	if (ra_b_rrs_a <= rr && ra_b_rrs_a <= rrr && ra_b_rrs_a <= ra_a_rra_b)
+		return (ra_b_rrs_a);
 	return (ra_a_rra_b);
 }
 
@@ -431,12 +431,12 @@ void do_ra_a_rra_b(Stack *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
 	(void)stack_b;
 	while (tmp_b->rra > 0)
 	{
-		rotate(&stack_a->B, 2);
+		reverse(&stack_a->B, 2);
 		tmp_b->rra--;
 	}
 	while (tmp_a->rr > 0)
 	{
-		reverse(&stack_a->A, 1);
+		rotate(&stack_a->A, 1);
 		tmp_a->rr--;
 	}
 }
@@ -446,12 +446,12 @@ void do_ra_b_rra_a(Stack *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
 	(void)stack_b;
 	while (tmp_a->rra > 0)
 	{
-		rotate(&stack_a->A, 1);
+		reverse(&stack_a->A, 1);
 		tmp_a->rra--;
 	}
 	while (tmp_b->rr > 0)
 	{
-		reverse(&stack_a->B, 2);
+		rotate(&stack_a->B, 2);
 		tmp_b->rr--;
 	}
 }
@@ -522,7 +522,7 @@ void	move_from_b_to_a(Stack **new)
 	}
 	 find_rr_rra((*new)->A);
 	 stack_a = find_min_struct_2(*new);
-	if (stack_a->rr > stack_a->rra)
+	if (stack_a->rr < stack_a->rra)
 		while (stack_a->rr--)
 			rotate(&(*new)->A, 1);
 	else
