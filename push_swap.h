@@ -35,6 +35,7 @@ void	push_b(Stack *new);
 void	push_a(Stack *new);
 int		sort_3(int len, Stack *new);
 void	sort_5(int len, Stack *new);
+int		ft_isdigit(int s);
 //Unit	*split_argv(int argc, char **argv);
 
 #endif

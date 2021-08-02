@@ -8,6 +8,13 @@ void init_Stack(Stack *new)
 	new->num_B = 0;
 }
 
+void error()
+{
+	write(1, "Error", 5);
+	exit (1);
+}
+
+
 Unit *find_min_struct_2(Stack *new)
 {
 	int min;
@@ -19,20 +26,16 @@ Unit *find_min_struct_2(Stack *new)
 	tmp = new->A;
 	while (curr)
 	{
-		if (curr->next)
+		if (min > curr->num)
 		{
-			if (min > curr->next->num)
-			{
-				min = curr->next->num;
-				tmp = curr;
-			}
+			min = curr->num;
+			tmp = curr;
 		}
 		curr = curr->next;
 	}
 	return (tmp);
 
 }
-
 
 int count_num_argv(char *argv)
 {
@@ -62,14 +65,15 @@ Unit *init_Unit(Unit *tmp)
 	return (tmp);
 }
 
-void check_split(char **split, Unit **tmp)
+int check_split(char **split, Unit **tmp)
 {
 	int i;
 
 	i = 0;
 	while (split[i])
 	{
-		(*tmp)->num = ft_atoi(split[i]);
+		if (!((*tmp)->num = ft_atoi(split[i])))
+			return (1);
 		if (split[i + 1] != NULL)
 		{
 			(*tmp)->next = init_Unit(*tmp);
@@ -77,6 +81,7 @@ void check_split(char **split, Unit **tmp)
 		}
 		i++;
 	}
+	return (0);
 }
 
 int check_dup(Unit *tmp2)
@@ -147,7 +152,8 @@ Unit	*split_argv(int argc, char **argv)
 	while (i < argc)
 	{
 		split = ft_split(argv[i], ' ');
-		check_split(split, &tmp);
+		if (check_split(split, &tmp))
+			error();
 		if (i < argc - 1)
 		{
 			tmp->next = init_Unit(tmp);
@@ -216,6 +222,7 @@ void put_mark(Unit *new, int num)
 	count_dup = count;
 	while (count--)
 		reverse(&new, 0);
+	//changed from reverse to rotate
 	prev = new;
 	prev->mark = 1;
 	curr = new->next;
@@ -338,7 +345,6 @@ Unit	*find_pair_from_a(Unit *new, int num)
 
 	prev = new;
 	tmp = new->next;
-
 	while (tmp)
 	{
 		if (prev->num > num && tmp->num < num)
@@ -486,11 +492,6 @@ void find_two_pairs(Stack **new)
 	Unit 	tmp_b;
 	int		steps;
 
-	(void)tmp_a;
-	(void)tmp_b;
-	(void)stack_a;
-	(void)stack_b;
-	(void)steps;
 	steps = 2147483647;
 	stack_b = (*new)->B;
 	while (stack_b)
@@ -522,10 +523,10 @@ void	move_from_b_to_a(Stack **new)
 	 find_rr_rra((*new)->A);
 	 stack_a = find_min_struct_2(*new);
 	if (stack_a->rr > stack_a->rra)
-		while (stack_a->rr-- > 1)
+		while (stack_a->rr--)
 			rotate(&(*new)->A, 1);
 	else
-		while (stack_a->rra-- > 1)
+		while (stack_a->rra--)
 			reverse(&(*new)->A, 1);
 }
 
@@ -541,7 +542,32 @@ void	sort_stack(int len, Stack *new)
 		move_from_a_to_b(new);
 		move_from_b_to_a(&new);
 	}
+}
 
+int is_sorted(Unit *cur)
+{
+	Unit *prev;
+
+	prev = cur;
+	if (cur)
+		cur = cur->next;
+	else
+		return 1;
+	if (cur)
+	{
+		if (prev->num < cur->num)
+			return (0);
+		while (cur->next)
+		{
+			if (prev->num < cur->num)
+				return (0);
+			prev = cur;
+			cur = cur->next;
+		}
+		if (prev->num < cur->num)
+			return (0);
+	}
+	return (1);
 }
 
 int main(int argc, char **argv)
@@ -559,9 +585,9 @@ int main(int argc, char **argv)
 	init_Stack(new);
 	new->A = split_argv(argc, argv);
 	if (check_dup(new->A))
-		exit (1);
+		error();
 	if (check_if_sorted(new->A))
-		exit (1);
+		error();
 	while (i++ < argc - 1)
 		len += count_num_argv(*argv);
 	sort_stack(len, new);
@@ -570,5 +596,4 @@ int main(int argc, char **argv)
 		printf("%d ", new->A->num);
 		new->A = new->A->next;
 	}
-//	printf("\n------------\n");
 }
