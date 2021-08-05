@@ -2,11 +2,27 @@
 
 void	ft_swap(Unit **new, int num)
 {
-	int	tmp;
+    Unit *curr;
+    Unit *last;
+    int tmp;
+    int mark;
 
-	tmp = (*new)->num;
-	(*new)->num = (*new)->next->num;
-	(*new)->next->num = tmp;
+    curr = *new;
+    last = *new;
+    if ((*new)->next  == NULL)
+        return ;
+    while (last->next)
+    {
+        curr = last;
+        last = last->next;
+    }
+    tmp = curr->num;
+    curr->num = last->num;
+    last->num = tmp;
+    mark = curr->mark;
+    curr->mark = last->mark;
+    last->mark = mark;
+
 	if (num == 1)
 		write(1, "sa\n", 3);
 }

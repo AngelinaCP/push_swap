@@ -16,7 +16,7 @@ Stack *init_Stack(void)
 
 void error()
 {
-   // write(1, "Error", 5);
+    write(1, "Error", 5);
 	exit (1);
 }
 
@@ -74,7 +74,6 @@ void reverse_root(Unit **root)
 	}
 	*root = prev;
 }
-
 
 Unit	*split_argv(int argc, char **argv)
 {
@@ -231,13 +230,9 @@ void move_from_a_to_b(Stack *new)
 		{
 		     reverse(&new->A, 1);
 			push_b(&new);
-			//reverse(&new->A, 1);
-			//changed rotate
-		//rotate(&new->A, 1);
 		}
 		else
 			reverse(&new->A, 1);
-		//changed reverse
 	}
 }
 
@@ -259,7 +254,6 @@ void find_mark(Unit *new)
 			num = new->num;
 		}
 		rotate(&new, 0);
-		//rotate
 	}
 	put_mark(new, num);
 }
@@ -449,12 +443,12 @@ int main(int argc, char **argv)
         j++;
         tmp = tmp->next;
     }
-	//sort_stack(j, new);
+	sort_stack(j, new);
 //	if (is_sorted(new->A))
 //	    printf("Sorted\n");
-	while (new->A )
-	{
-		printf("%d ", new->A->num);
-		new->A = new->A->next;
-	}
+//	while (new->A)
+//	{
+//		printf("%d ", new->A->num);
+//		new->A = new->A->next;
+//	}
 }

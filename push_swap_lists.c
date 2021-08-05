@@ -9,10 +9,9 @@ typedef struct S_Unit
 
 typedef struct S_Stack
 {
-//	int num;
 	struct Unit *A;
 	struct Unit *B;
-} Stack ;
+}				Stack ;
 
 Stack *init_struct(void)
 {
@@ -29,25 +28,11 @@ Stack *init_struct(void)
 	return (new);
 }
 
-//Unit *init_Unit(void)
-//{
-//	Unit *new;
-//
-//	new = (Unit *)malloc(sizeof(Unit *));
-//	if (!new)
-//		exit (1);
-//	new->num = 0;
-//	new->next = NULL;
-//	new->index = 0;
-//	return (new);
-//}
-
 int find_max(Stack *stack)
 {
 	int	max;
 
 	max = 0;
-	printf("%d", stack->num);
 	while (stack->next != NULL)
 	{
 		if (stack->num > max)
@@ -73,7 +58,6 @@ void sort_3(Stack *stack)
 	int max;
 
 	max = find_max(stack);
-	//printf("%d", (*A)->num);
 }
 
 void check_num(int argc, Stack *stack)

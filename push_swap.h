@@ -45,6 +45,7 @@ int 	check_dup(Unit *tmp2);
 int 	check_if_sorted(Unit *tmp);
 int 	check(char *str);
 Unit 	*init_Unit(void);
+void	find_rr_rra(Unit *new);
 //Unit	*split_argv(int argc, char **argv);
 
 #endif

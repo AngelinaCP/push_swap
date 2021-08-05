@@ -140,43 +140,4 @@ int	check_if_sorted(Unit *tmp)
 	return (1);
 }
 
-//int	check_max_min(char *str, int minus)
-//{
-//	char	*int_max;
-//	char	*int_min;
-//	char	*max_num;
-//
-//	int_max = "2147483647";
-//	int_min = "2147483648";
-//	if (ft_strlen(str) > 10)
-//		return (0);
-//	if (ft_strlen(str) < 10)
-//		return (1);
-//	if (minus)
-//		max_num = int_min;
-//	else
-//		max_num = int_max;
-//	if (ft_strncmp(str, max_num, 10) > 0)
-//		return (0);
-//	return (1);
-//}
 
-//int	check(char *str)
-//{
-//	int	i;
-//	int	minus;
-//
-//	minus = 0;
-//	i = 0;
-//	if (str[i] == '-' || str[i] == '+')
-//	{
-//		if (str[i] == '-')
-//			minus = 1;
-//		i++;
-//	}
-//	while (ft_isdigit(str[i]))
-//		i++;
-//	if (i != (int) ft_strlen(str))
-//		return (0);
-//	return (check_max_min(str + minus, minus));
-//}
