@@ -1,12 +1,12 @@
 #include "push_swap.h"
 
-void	ft_swap(Unit *new, int num)
+void	ft_swap(Unit **new, int num)
 {
 	int	tmp;
 
-	tmp = new->num;
-	new->num = new->next->num;
-	new->next->num = tmp;
+	tmp = (*new)->num;
+	(*new)->num = (*new)->next->num;
+	(*new)->next->num = tmp;
 	if (num == 1)
 		write(1, "sa\n", 3);
 }
@@ -73,6 +73,7 @@ void	rrr(Unit **new, Unit **new_2)
 
 void	push_b(Stack **new)
 {
+    (void)new;
 	Unit	*stack_a;
 	Unit	*stack_b;
 	Unit	*prev;
@@ -81,7 +82,7 @@ void	push_b(Stack **new)
 	(*new)->num_A--;
 	stack_a = (*new)->A;
 	stack_b = (*new)->B;
-	prev = (*new)->B;
+	prev = (*new)->A;
 	if ((*new)->A)
 	{
 		if (!stack_a->next)
@@ -106,7 +107,7 @@ void	push_b(Stack **new)
 	write(1, "pb\n", 3);
 }
 
-void	push_a(Stack *new)
+void	    push_a(Stack *new)
 {
 	Unit	*tmp_a;
 	Unit	*tmp_b;

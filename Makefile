@@ -1,6 +1,6 @@
 SRCS	=	new_push_swap.c ft_atoi.c ft_isdigit.c ft_strlen.c \
 			ft_strncmp.c	ft_split.c commands.c mini_sort.c \
-			operations.c   check.c
+			operations.c  check.c \
 
 HEAD		=		push_swap.h
 

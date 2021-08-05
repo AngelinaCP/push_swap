@@ -1,16 +1,22 @@
 #include "push_swap.h"
 
-void init_Stack(Stack *new)
+Stack *init_Stack(void)
 {
+    Stack *new;
+
+    new = (Stack *)malloc(sizeof(Stack));
+    if (!new)
+        exit (1);
 	new->A = NULL;
 	new->B = NULL;
 	new->num_A = 0;
 	new->num_B = 0;
+	return (new);
 }
 
 void error()
 {
-	write(1, "Error", 5);
+   // write(1, "Error", 5);
 	exit (1);
 }
 
@@ -33,7 +39,6 @@ Unit *find_min_struct_2(Stack *new)
 		curr = curr->next;
 	}
 	return (tmp);
-
 }
 
 int count_num_argv(char *argv)
@@ -81,25 +86,17 @@ Unit	*split_argv(int argc, char **argv)
 
 	i = 1;
 	new = NULL;
-	tmp = NULL;
 	split = NULL;
-	tmp2 = init_Unit(tmp);
+	tmp2 = init_Unit();
 	tmp = tmp2;
-	int j = 0;
 	while (i < argc)
 	{
 		split = ft_split(argv[i], ' ');
-		while (split[j])
-		{
-			if (!check(split[j]))
-				exit(1);
-			j++;
-		}
 		if (check_split(split, &tmp))
 			error();
 		if (i < argc - 1)
 		{
-			tmp->next = init_Unit(tmp);
+			tmp->next = init_Unit();
 			tmp = tmp->next;
 		}
 		i++;
@@ -140,7 +137,7 @@ int count_mark(Unit *new)
 			}
 			new = new->next;
 		}
-		if (new->num < tmp->num)
+		if (new->num > tmp->num)
 			count++;
 	}
 	return (count);
@@ -221,7 +218,6 @@ Unit *find_min_struct(Unit *new)
 	 	curr = curr->next;
 	 }
 	 return (tmp);
-
 }
 
 void move_from_a_to_b(Stack *new)
@@ -233,11 +229,15 @@ void move_from_a_to_b(Stack *new)
 	{
 		if (!new->A->mark)
 		{
+		     reverse(&new->A, 1);
 			push_b(&new);
-			rotate(&new->A, 1);
+			//reverse(&new->A, 1);
+			//changed rotate
+		//rotate(&new->A, 1);
 		}
 		else
-			rotate(&new->A, 1);
+			reverse(&new->A, 1);
+		//changed reverse
 	}
 }
 
@@ -259,6 +259,7 @@ void find_mark(Unit *new)
 			num = new->num;
 		}
 		rotate(&new, 0);
+		//rotate
 	}
 	put_mark(new, num);
 }
@@ -431,22 +432,27 @@ int main(int argc, char **argv)
 	Stack *new;
 	int len;
 	int i;
+	Unit *tmp;
 
 	i = 0;
+	int j = 0;
 	len = 0;
-	if (!(new = (Stack *)malloc(sizeof(Stack))))
-		exit (1);
-	init_Stack(new);
+	new = init_Stack();
 	new->A = split_argv(argc, argv);
 	if (check_dup(new->A))
 		error();
 	if (check_if_sorted(new->A))
 		exit (1);
-	while (i++ < argc - 1)
-		len += count_num_argv(*argv);
-	sort_stack(len, new);
-	// check_if_sorted(new->A);
-	while (new->A)
+    tmp = new->A;
+    while (tmp)
+    {
+        j++;
+        tmp = tmp->next;
+    }
+	//sort_stack(j, new);
+//	if (is_sorted(new->A))
+//	    printf("Sorted\n");
+	while (new->A )
 	{
 		printf("%d ", new->A->num);
 		new->A = new->A->next;

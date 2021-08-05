@@ -26,7 +26,7 @@ typedef struct	S_Stack
 int		main(int argc, char **argv);
 char	**ft_split(char const *s, char c);
 int		ft_atoi(const char *str);
-void	ft_swap(Unit *new, int num);
+void	ft_swap(Unit **new, int num);
 void	rotate(Unit **new, int num);
 void 	rr(Unit **new, Unit **new_2);
 void	reverse(Unit **new, int num);
@@ -44,7 +44,7 @@ int 	check_split(char **split, Unit **tmp);
 int 	check_dup(Unit *tmp2);
 int 	check_if_sorted(Unit *tmp);
 int 	check(char *str);
-Unit 	*init_Unit(Unit *tmp);
+Unit 	*init_Unit(void);
 //Unit	*split_argv(int argc, char **argv);
 
 #endif

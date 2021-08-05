@@ -28,17 +28,62 @@ int	find_min(Unit *new)
 	return (min);
 }
 
-void	sort_3_num(Stack *new)
-{
-	int	min;
+//void	sort_3_num(Stack *new)
+//{
+//	int	min;
+//
+//	min = find_min(new->A);
+//	if (new->A->num == min)
+//		reverse(&new->A, 1);
+//	if (new->A->next->num == min)
+//		rotate(&new->A, 1);
+//	if (new->A->num < new->A->next->num)
+//		ft_swap(&new->A, 1);
+//}
 
-	min = find_min(new->A);
-	if (new->A->num == min)
-		reverse(&new->A, 1);
-	if (new->A->next->num == min)
-		rotate(&new->A, 1);
-	if (new->A->num < new->A->next->num)
-		ft_swap(new->A, 1);
+void stack_sort_three_helper(Unit **stack)
+{
+	Unit *tmp;
+
+	tmp = *stack;
+	if (tmp->num < tmp->next->num
+	&& tmp->next->num > tmp->next->next->num
+	&& tmp->num < tmp->next->next->num)
+	{
+		reverse(stack, 1);
+		tmp = *stack;
+	}
+	if (tmp->num > tmp->next->num
+	&& tmp->num < tmp->next->next->num
+	&& tmp->next->num < tmp->next->next->num)
+	{
+		rotate(stack, 1);
+	}
+}
+
+void sort_3_num(Unit **stack)
+{
+	Unit *tmp;
+
+	tmp = *stack;
+	if (tmp->num > tmp->next->num
+	&& tmp->next->num < tmp->next->next->num
+	&& tmp->num > tmp->next->next->num)
+	{
+		ft_swap(stack, 1);
+		tmp = *stack;
+	}
+	if (tmp->num < tmp->next->num
+	&& tmp->next->num < tmp->next->next->num)
+	{
+		ft_swap(stack, 1);
+		tmp = *stack;
+	}
+	if (tmp->num < tmp->next->num
+	&& tmp->next->num > tmp->next->next->num
+	&& tmp->num > tmp->next->next->num)
+		ft_swap(stack, 1);
+	stack_sort_three_helper(stack);
 }
 
 int	sort_3(int len, Stack *new)
@@ -46,9 +91,9 @@ int	sort_3(int len, Stack *new)
 	if (len == 1)
 		return (1);
 	else if (len == 2)
-		ft_swap(new->A, 1);
+		ft_swap(&new->A, 1);
 	else if (len == 3)
-		sort_3_num(new);
+		sort_3_num(&new->A);
 	return (0);
 }
 
@@ -56,8 +101,12 @@ void	sort_4_num(Stack *new)
 {
 	while (new->num_B < 1)
 	{
-		if (new->A->num == find_max(new->A))
+		if (new->A->num == find_min(new->A))
+		{
+			reverse(&new->A, 1);
 			push_b(&new);
+
+		}
 		else
 			reverse(&new->A, 1);
 	}
@@ -70,7 +119,10 @@ void	sort_5_num(Stack *new)
 	while (new->num_B < 2)
 	{
 		if (new->A->num == find_min(new->A))
+		{
+			reverse(&new->A, 1);
 			push_b(&new);
+		}
 		else
 			reverse(&new->A, 1);
 	}
