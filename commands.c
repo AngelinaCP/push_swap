@@ -1,36 +1,36 @@
 #include "push_swap.h"
 
-void	ft_swap(Unit **new, int num)
+void	ft_swap(t_Unit **new, int num)
 {
-    Unit    *curr;
-    Unit    *last;
-    int     tmp;
-    int     mark;
+	t_Unit	*curr;
+	t_Unit	*last;
+	int		tmp;
+	int		mark;
 
-    last = *new;
-    if ((*new)->next  == NULL)
-        return ;
-    while (last->next)
-    {
-        curr = last;
-        last = last->next;
-    }
-    tmp = curr->num;
-    curr->num = last->num;
-    last->num = tmp;
-    mark = curr->mark;
-    curr->mark = last->mark;
-    last->mark = mark;
+	last = *new;
+	if ((*new)->next == NULL)
+		return ;
+	while (last->next)
+	{
+		curr = last;
+		last = last->next;
+	}
+	tmp = curr->num;
+	curr->num = last->num;
+	last->num = tmp;
+	mark = curr->mark;
+	curr->mark = last->mark;
+	last->mark = mark;
 	if (num == 1)
 		write(1, "sa\n", 3);
 	else if (num == 2)
-	    write(1, "sb\n", 3);
+		write(1, "sb\n", 3);
 }
 
-void	rotate(Unit **new, int num)
+void	rotate(t_Unit **new, int num)
 {
-	Unit	*tmp;
-	Unit	*prev;
+	t_Unit	*tmp;
+	t_Unit	*prev;
 
 	prev = *new;
 	tmp = *new;
@@ -50,18 +50,18 @@ void	rotate(Unit **new, int num)
 		write(1, "rb\n", 3);
 }
 
-void	rr(Unit **new, Unit **new_2, int i)
+void	rr(t_Unit **new, t_Unit **new_2, int i)
 {
 	rotate(new, 0);
 	rotate(new_2, 0);
 	if (i == 1)
-	    write(1, "rr\n", 3);
+		write(1, "rr\n", 3);
 }
 
-void	reverse(Unit **new, int num)
+void	reverse(t_Unit **new, int num)
 {
-	Unit	*first;
-	Unit	*last;
+	t_Unit	*first;
+	t_Unit	*last;
 
 	first = *new;
 	if (first->next)
@@ -81,10 +81,10 @@ void	reverse(Unit **new, int num)
 		write(1, "rrb\n", 4);
 }
 
-void	rrr(Unit **new, Unit **new_2, int i)
+void	rrr(t_Unit **new, t_Unit **new_2, int i)
 {
 	reverse(new, 0);
 	reverse(new_2, 0);
 	if (i == 1)
-	    write(1, "rrr\n", 4);
+		write(1, "rrr\n", 4);
 }
