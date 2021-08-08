@@ -54,6 +54,7 @@ int	sort_3(int len, Stack *new)
 
 void	sort_4_num(Stack *new)
 {
+    (void)new;
     Unit *content;
 
     find_rr_rra(new->A);
@@ -74,43 +75,8 @@ void	sort_4_num(Stack *new)
             rotate(&new->A,1);
         }
     }
-    push_b(&new);
+    push_b(&new, 1);
     sort_3_num(new);
-    push_a(new);
+    push_a(new, 1);
 }
 
-void	sort_5_num(Stack *new)
-{
-    Unit *content;
-
-    find_rr_rra(new->A);
-    content = find_min(new->A);
-    if (content->rr >= content->rra)
-    {
-        while (content->rra > 0)
-        {
-            reverse(&new->A,1);
-            content->rra--;
-        }
-    }
-    else
-    {
-        while (content->rr > 0)
-        {
-            content->rr--;
-            rotate(&new->A,1);
-        }
-    }
-
-    push_b(&new);
-    sort_4_num(new);
-    push_a(new);
-}
-
-void	sort_5(int len, Stack *new)
-{
-	if (len == 4)
-		sort_4_num(new);
-	else if (len == 5)
-		sort_5_num(new);
-}

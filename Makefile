@@ -1,33 +1,43 @@
-SRCS	=	new_push_swap.c ft_atoi.c ft_isdigit.c ft_strlen.c \
-			ft_strncmp.c	ft_split.c commands.c mini_sort.c \
-			operations.c  check.c \
+PUSH_SWAP = push_swap
+CHECKER = checker
+CFLAGS  = -Wall -Wextra -Werror
 
-HEAD		=		push_swap.h
+CC   = gcc
 
-OBJC    	=       ${SRCS:.c=.o}
+HEADER  = push_swap.h
 
-NAME		=       push_swap
+LIBFT = ./libft/libft.a
 
-CC      	=       gcc
+RM   = rm -f
 
-FLAGS		=		-Wall -Wextra -Werror
+SRCS	=	push_swap.c commands.c mini_sort.c operations.c  check.c utils.c find_max_min.c find_mark.c check_2.c mini_sort_5.c push_a_b.c utils_2.c
 
-RM			=       rm -rf
+SRCS_B  =   checker.c gnl/get_next_line.c utils.c commands.c mini_sort.c operations.c  check.c find_max_min.c find_mark.c check_2.c mini_sort_5.c push_a_b.c utils_2.c
 
-%.o:%.c 		$(HEAD)
-				$(CC) $(FLAGS) -c $< -o ${<:.c=.o}
+OBJS   = ${SRCS:.c=.o}
 
-all:            $(NAME)
+OBJS_B   = ${SRCS_B:.c=.o}
 
-$(NAME):        $(OBJC)
-				$(CC) $(OBJC)  -o $(NAME)
+all:   ${PUSH_SWAP}
+
+.c.o:
+	${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+
+$(PUSH_SWAP):  $(OBJS)  $(HEADER)
+				$(MAKE) -C ./libft
+				$(CC) $(OBJS) $(CFLAGS) libft/libft.a   -o $(PUSH_SWAP)
+
+$(CHECKER) :	$(OBJS_B)
+				$(CC) $(OBJS_B) $(CFLAGS) libft/libft.a -o $(CHECKER)
+
+bonus:  ${PUSH_SWAP} ${CHECKER}
 
 clean:
-				${RM} ${OBJC} ${OBJCB}
+	${RM} ${OBJS} ${OBJS_B}
 
-fclean:			clean
-				${RM} ${NAME} ${NAMEB}
+fclean:  clean
+		${RM} ${PUSH_SWAP} ${CHECKER}
 
-re:				fclean	all
+re:   fclean all
 
-.PHONY:			all clean fclean re bonus
+.PHONY:  all clean fclean re

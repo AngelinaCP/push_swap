@@ -5,7 +5,7 @@ void do_rr(Stack *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
 	(void)stack_b;
 	while (tmp_a->rr > 0 && tmp_b->rr > 0)
 	{
-		rr(&stack_a->A, &stack_a->B);
+		rr(&stack_a->A, &stack_a->B, 1);
 		tmp_a->rr--;
 		tmp_b->rr--;
 	}
@@ -20,7 +20,7 @@ void do_rrr(Stack *stack_a, Unit *stack_b, Unit *tmp_a, Unit *tmp_b)
 	(void)stack_b;
 	while (tmp_a->rra > 0 && tmp_b->rra > 0)
 	{
-			rrr(&stack_a->A, &stack_a->B);
+			rrr(&stack_a->A, &stack_a->B, 1);
 			tmp_a->rra--;
 			tmp_b->rra--;
 	}
@@ -79,5 +79,5 @@ void do_operations(Unit *tmp_a, Unit *tmp_b, Stack **stack_a, Stack *stack_b, St
 		do_ra_a_rra_b((*stack_a), (*stack_a)->B, tmp_a, tmp_b);
 	else if (ra_b_rrs_a <= rr && ra_b_rrs_a <= rrr && ra_b_rrs_a <= ra_a_rra_b)
 		do_ra_b_rra_a((*stack_a), (*stack_a)->B, tmp_a, tmp_b);
-	push_a(new);
+	push_a(new, 1);
 }

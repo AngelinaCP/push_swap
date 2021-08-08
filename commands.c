@@ -2,12 +2,11 @@
 
 void	ft_swap(Unit **new, int num)
 {
-    Unit *curr;
-    Unit *last;
-    int tmp;
-    int mark;
+    Unit    *curr;
+    Unit    *last;
+    int     tmp;
+    int     mark;
 
-    curr = *new;
     last = *new;
     if ((*new)->next  == NULL)
         return ;
@@ -22,9 +21,10 @@ void	ft_swap(Unit **new, int num)
     mark = curr->mark;
     curr->mark = last->mark;
     last->mark = mark;
-
 	if (num == 1)
 		write(1, "sa\n", 3);
+	else if (num == 2)
+	    write(1, "sb\n", 3);
 }
 
 void	rotate(Unit **new, int num)
@@ -50,11 +50,12 @@ void	rotate(Unit **new, int num)
 		write(1, "rb\n", 3);
 }
 
-void	rr(Unit **new, Unit **new_2)
+void	rr(Unit **new, Unit **new_2, int i)
 {
 	rotate(new, 0);
 	rotate(new_2, 0);
-	write(1, "rr\n", 3);
+	if (i == 1)
+	    write(1, "rr\n", 3);
 }
 
 void	reverse(Unit **new, int num)
@@ -80,78 +81,10 @@ void	reverse(Unit **new, int num)
 		write(1, "rrb\n", 4);
 }
 
-void	rrr(Unit **new, Unit **new_2)
+void	rrr(Unit **new, Unit **new_2, int i)
 {
 	reverse(new, 0);
 	reverse(new_2, 0);
-	write(1, "rrr\n", 4);
-}
-
-void	push_b(Stack **new)
-{
-    (void)new;
-	Unit	*stack_a;
-	Unit	*stack_b;
-	Unit	*prev;
-
-	(*new)->num_B++;
-	(*new)->num_A--;
-	stack_a = (*new)->A;
-	stack_b = (*new)->B;
-	prev = (*new)->A;
-	if ((*new)->A)
-	{
-		if (!stack_a->next)
-			(*new)->A = NULL;
-		while (stack_a->next)
-		{
-			prev = stack_a;
-			stack_a = stack_a->next;
-		}
-		prev->next = NULL;
-	}
-	else
-		return ;
-	if ((*new)->B)
-	{
-		while (stack_b->next)
-			stack_b = stack_b->next;
-		stack_b->next = stack_a;
-	}
-	else
-		(*new)->B = stack_a;
-	write(1, "pb\n", 3);
-}
-
-void	    push_a(Stack *new)
-{
-	Unit	*tmp_a;
-	Unit	*tmp_b;
-	Unit	*prev_b;
-
-	tmp_a = new->A;
-	tmp_b = new->B;
-	prev_b = new->B;
-	if (tmp_b)
-	{
-		if (!tmp_b->next)
-			new->B = NULL;
-		while (tmp_b->next)
-		{
-			prev_b = tmp_b;
-			tmp_b = tmp_b->next;
-		}
-		prev_b->next = NULL;
-	}
-	else
-		return ;
-	if (tmp_a)
-	{
-		while (tmp_a->next)
-			tmp_a = tmp_a->next;
-		tmp_a->next = tmp_b;
-	}
-	else
-		new->A = tmp_b;
-	write(1, "pa\n", 3);
+	if (i == 1)
+	    write(1, "rrr\n", 4);
 }
