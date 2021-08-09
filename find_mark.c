@@ -25,20 +25,26 @@ int	count_mark(t_Unit *new)
 	return (count);
 }
 
-void	find_rr_rra(t_Unit *new)
+int	min_steps(t_Unit *stack_a, t_Unit *stack_b)
 {
-	int	size;
-	int	i;
+	int	rr;
+	int	rrr;
+	int	ra_a_rra_b;
+	int	ra_b_rrs_a;
 
-	i = 1;
-	size = new_size(new);
-	while (new)
-	{
-		new->rr = size - i;
-		new->rra = i;
-		i++;
-		new = new->next;
-	}
+	rr = find_max_ab(stack_a->rr, stack_b->rr);
+	rrr = find_max_ab(stack_a->rra, stack_b->rra);
+	ra_b_rrs_a = stack_b->rr + stack_a->rra;
+	ra_a_rra_b = stack_a->rr + stack_b->rra;
+	if (rr <= rrr && rr <= ra_a_rra_b && rr <= ra_b_rrs_a)
+		return (rr);
+	if (rrr <= rr && rrr <= ra_a_rra_b && rrr <= ra_b_rrs_a)
+		return (rrr);
+	if (ra_a_rra_b <= rr && ra_a_rra_b <= rrr && ra_a_rra_b <= ra_b_rrs_a)
+		return (ra_a_rra_b);
+	if (ra_b_rrs_a <= rr && ra_b_rrs_a <= rrr && ra_b_rrs_a <= ra_a_rra_b)
+		return (ra_b_rrs_a);
+	return (ra_a_rra_b);
 }
 
 void	put_mark_2(t_Unit *curr, int count_dup, t_Unit *prev, t_Unit *new)

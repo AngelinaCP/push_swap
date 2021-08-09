@@ -1,12 +1,25 @@
 #include "push_swap.h"
 
-void	push_a(t_Stack *new, int i)
+void	push_aa(t_Stack *new, t_Unit *tmp_b)
 {
 	t_Unit	*tmp_a;
+
+	tmp_a = new->A;
+	if (tmp_a)
+	{
+		while (tmp_a->next)
+			tmp_a = tmp_a->next;
+		tmp_a->next = tmp_b;
+	}
+	else
+		new->A = tmp_b;
+}
+
+void	push_a(t_Stack *new, int i)
+{
 	t_Unit	*tmp_b;
 	t_Unit	*prev_b;
 
-	tmp_a = new->A;
 	tmp_b = new->B;
 	prev_b = new->B;
 	if (tmp_b)
@@ -22,27 +35,33 @@ void	push_a(t_Stack *new, int i)
 	}
 	else
 		return ;
-	if (tmp_a)
-	{
-		while (tmp_a->next)
-			tmp_a = tmp_a->next;
-		tmp_a->next = tmp_b;
-	}
-	else
-		new->A = tmp_b;
+	push_aa(new, tmp_b);
 	if (i == 1)
 		write(1, "pa\n", 3);
+}
+
+void	push_bb(t_Stack **new, t_Unit *stack_a)
+{
+	t_Unit	*stack_b;
+
+	stack_b = (*new)->B;
+	if (!(*new)->B)
+		(*new)->B = stack_a;
+	else
+	{
+		while (stack_b->next)
+			stack_b = stack_b->next;
+		stack_b->next = stack_a;
+	}
 }
 
 void	push_b(t_Stack **new, int i)
 {
 	t_Unit	*stack_a;
-	t_Unit	*stack_b;
 	t_Unit	*prev;
 
 	(*new)->num_B++;
 	stack_a = (*new)->A;
-	stack_b = (*new)->B;
 	if (!(*new)->A)
 		return ;
 	else
@@ -56,14 +75,7 @@ void	push_b(t_Stack **new, int i)
 		}
 		prev->next = NULL;
 	}
-	if (!(*new)->B)
-		(*new)->B = stack_a;
-	else
-	{
-		while (stack_b->next)
-			stack_b = stack_b->next;
-		stack_b->next = stack_a;
-	}
+	push_bb(new, stack_a);
 	if (i == 1)
 		write(1, "pb\n", 3);
 }

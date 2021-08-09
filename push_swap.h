@@ -66,5 +66,7 @@ t_Unit	*find_min(t_Unit *new);
 void	find_two_pairs(t_Stack **new);
 t_Unit	*find_pair_from_a(t_Unit *new, int num);
 int		min_steps(t_Unit *stack_a, t_Unit *stack_b);
-
+void	put_mark(t_Unit *new, int num);
+t_Unit	*find_pair_from_a(t_Unit *new, int num);
+void	find_rr_rra(t_Unit *new);
 #endif

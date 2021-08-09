@@ -12,7 +12,10 @@ void	free_array(char **split)
 
 	i = 0;
 	while (split[i])
-		free(split[++i]);
+	{
+		free(split[i]);
+		i++;
+	}
 	free(split);
 }
 

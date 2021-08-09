@@ -10,9 +10,9 @@ LIBFT = ./libft/libft.a
 
 RM   = rm -f
 
-SRCS	=	push_swap.c commands.c mini_sort.c operations.c  check.c utils.c find_max_min.c find_mark.c check_2.c mini_sort_5.c push_a_b.c utils_2.c
+SRCS	=	push_swap.c commands.c mini_sort.c operations.c  check.c utils.c find_max_min.c find_mark.c check_2.c mini_sort_5.c push_a_b.c utils_2.c find_pair.c
 
-SRCS_B  =   checker.c gnl/get_next_line.c utils.c commands.c mini_sort.c operations.c  check.c find_max_min.c find_mark.c check_2.c mini_sort_5.c push_a_b.c utils_2.c
+SRCS_B  =   checker.c gnl/get_next_line.c utils.c commands.c mini_sort.c operations.c  check.c find_max_min.c find_mark.c check_2.c mini_sort_5.c push_a_b.c utils_2.c find_pair.c
 
 OBJS   = ${SRCS:.c=.o}
 
